@@ -16,7 +16,7 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @GetMapping("/")
+    @GetMapping({"", "/"})
     public ResponseEntity<List<Task>> getAllTasks(){
         return ResponseEntity.ok(taskService.getAllTask());
     }
@@ -26,17 +26,17 @@ public class TaskController {
         return ResponseEntity.ok(taskService.findAllCompletedTask());
     }
 
-    @GetMapping("incompleted")
+    @GetMapping("/incompleted")
     public ResponseEntity<List<Task>> GetAllIncompletedTasks(){
         return ResponseEntity.ok(taskService.findAllIncompletedTask());
     }
 
-    @PostMapping("/")
+    @PostMapping({"", "/"})
     public ResponseEntity<Task> createTask(@RequestBody Task task){
         return ResponseEntity.ok(taskService.createNewTask(task));
     }
 
-    @PostMapping("/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task){
         task.setId(id);
         return ResponseEntity.ok(taskService.updateTask(task));
@@ -53,7 +53,7 @@ public class TaskController {
         return ResponseEntity.ok(taskService.findTaskById(id));
     }
 
-    @GetMapping("/test")
+    @GetMapping({"/test", "/test/"})
     public String test() {
         return "Controller is working!";
     }
