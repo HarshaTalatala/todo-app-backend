@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@CrossOrigin(origins = "https://gentle-stone-03aeae710.2.azurestaticapps.net")
 @RestController
 @RequestMapping("/api/tasks")
 public class TaskController {
