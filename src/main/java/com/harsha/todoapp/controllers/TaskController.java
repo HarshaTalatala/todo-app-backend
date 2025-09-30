@@ -17,45 +17,48 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    @GetMapping({"", "/"})
-    public ResponseEntity<List<Task>> getAllTasks(){
+    // GET all tasks
+    @GetMapping(value = {"", "/"})
+    public ResponseEntity<List<Task>> getAllTasks() {
         return ResponseEntity.ok(taskService.getAllTask());
     }
 
+    // GET completed tasks
     @GetMapping("/completed")
-    public ResponseEntity<List<Task>> getAllCompletedTasks(){
+    public ResponseEntity<List<Task>> getAllCompletedTasks() {
         return ResponseEntity.ok(taskService.findAllCompletedTask());
     }
 
+    // GET incompleted tasks
     @GetMapping("/incompleted")
-    public ResponseEntity<List<Task>> GetAllIncompletedTasks(){
+    public ResponseEntity<List<Task>> getAllIncompletedTasks() {
         return ResponseEntity.ok(taskService.findAllIncompletedTask());
     }
 
-    @PostMapping({"", "/"})
-    public ResponseEntity<Task> createTask(@RequestBody Task task){
-        return ResponseEntity.ok(taskService.createNewTask(task));
+    // GET task by ID
+    @GetMapping("/{id}")
+    public ResponseEntity<Optional<Task>> getTaskById(@PathVariable Long id) {
+        return ResponseEntity.ok(taskService.findTaskById(id));
     }
 
+    // POST create task (handles trailing slash variations)
+    @PostMapping(value = {"", "/"})
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
+        Task savedTask = taskService.createNewTask(task);
+        return ResponseEntity.ok(savedTask);
+    }
+
+    // PUT update task
     @PutMapping("/{id}")
-    public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task){
+    public ResponseEntity<Task> updateTask(@PathVariable Long id, @RequestBody Task task) {
         task.setId(id);
         return ResponseEntity.ok(taskService.updateTask(task));
     }
 
+    // DELETE task
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteTask(@PathVariable Long id){
+    public ResponseEntity<Boolean> deleteTask(@PathVariable Long id) {
         taskService.deleteTask(id);
         return ResponseEntity.ok(true);
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<Optional<Task>> getTaskById(@PathVariable Long id){
-        return ResponseEntity.ok(taskService.findTaskById(id));
-    }
-
-    @GetMapping({"/test", "/test/"})
-    public String test() {
-        return "Controller is working!";
     }
 }
